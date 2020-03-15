@@ -1,28 +1,46 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <div class="row">
+      <div class="col-4 mt-4 text-center">
+        <h1>Tasks</h1>
+        <hr />
+        <AddTask :id="currentId" @addTask="add($event)" />
+        <TodoList :tasks="tasks" @removeTask="removeTask($event)" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AddTask from '@/components/AddTask';
+import TodoList from '@/components/TodoList';
 
 export default {
-  name: 'App',
+  data() {
+    return {
+      currentId: 1,
+      tasks: []
+    };
+  },
+  methods: {
+    add(e) {
+      console.log(e);
+      this.tasks.push({
+        id: this.currentId++,
+        text: e,
+        completed: false
+      });
+    },
+    removeTask(e) {
+       this.tasks = this.tasks.filter(i => i.id != e);
+    },
+  },
+  computed: {
+      
+  },
   components: {
-    HelloWorld
+    AddTask,
+    TodoList
   }
-}
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
